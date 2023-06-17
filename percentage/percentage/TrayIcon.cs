@@ -10,8 +10,8 @@ namespace percentage
         [DllImport("user32.dll", CharSet=CharSet.Auto)]
         static extern bool DestroyIcon(IntPtr handle);
 
-        private const int fontSize = 18;
-        private const string font = "Segoe UI";
+        private const int fontSize = 14;
+        private const string font = "Segoe UI Semibold";
 
         private NotifyIcon notifyIcon;
 
@@ -26,7 +26,7 @@ namespace percentage
 
             menuItem.Click += new System.EventHandler(MenuItemClick);
             menuItem.Index = 0;
-            menuItem.Text = "E&xit";
+            menuItem.Text = "Exit";
 
             notifyIcon.ContextMenu = contextMenu;
             notifyIcon.Visible = true;
@@ -73,8 +73,19 @@ namespace percentage
             PowerStatus powerStatus = SystemInformation.PowerStatus;
             String percentage = (powerStatus.BatteryLifePercent * 100).ToString();
             bool isCharging = SystemInformation.PowerStatus.PowerLineStatus == PowerLineStatus.Online;
-            String bitmapText = isCharging ? percentage + "*" : percentage;
-            using (Bitmap bitmap = new Bitmap(GetTextBitmap(bitmapText, new Font(font, fontSize), Color.White)))
+            String bitmapText = percentage;
+
+            Color textColor;
+            if (isCharging)
+            {
+                textColor = Color.PaleGreen;
+            }
+            else
+            {
+                textColor = Color.White;
+            }
+
+            using (Bitmap bitmap = new Bitmap(GetTextBitmap(bitmapText, new Font(font, fontSize), textColor)))
             {
                 System.IntPtr intPtr = bitmap.GetHicon();
                 try
