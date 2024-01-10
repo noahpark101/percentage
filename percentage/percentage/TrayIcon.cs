@@ -10,7 +10,7 @@ namespace percentage
         [DllImport("user32.dll", CharSet=CharSet.Auto)]
         static extern bool DestroyIcon(IntPtr handle);
 
-        private const int fontSize = 14;
+        private const int fontSize = 20;
         private const string font = "Segoe UI Semibold";
 
         private NotifyIcon notifyIcon;
